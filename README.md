@@ -7,6 +7,7 @@ This dataset is originally sourced from Project Gutenberg and privately owned PD
 [Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
 
 ## 전처리한 데이터 구조
+- DeepL API 이용해서 한국어로 번역한 컬럼 생성
 
 ![alt text](image.png)
 
