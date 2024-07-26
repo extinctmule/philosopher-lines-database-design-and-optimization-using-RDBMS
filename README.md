@@ -74,17 +74,20 @@ CREATE TABLE IF NOT EXISTS philosophical_works (
 ## CRUD 작업을 수행하는 SQL 스크립트
 
 ### Create
+#### 1.
 ```sql
 -- 철학 학파 테이블에 데이터 삽입
 INSERT IGNORE INTO philosophical_schools (school_name)
 SELECT DISTINCT school FROM philosopher_lines
 WHERE school IS NOT NULL AND school != '';
 ```
+#### 2.
 ```sql
 -- 철학자 테이블에 데이터 삽입
 INSERT INTO philosophers (name)
 SELECT DISTINCT author FROM philosopher_lines;
 ```
+#### 3.
 ```sql
 -- 철학자 테이블에 school_id 데이터 삽입
 UPDATE philosophers p
@@ -92,6 +95,7 @@ JOIN philosopher_lines pl ON p.name = pl.author
 JOIN philosophical_schools ps ON pl.school = ps.school_name
 SET p.school_id = ps.id;
 ```
+#### 4.
 ```sql
 -- 철학 저서 테이블에 데이터 삽입
 INSERT INTO philosophical_works (title, author_id, original_publication_date, corpus_edition_date)
@@ -100,32 +104,36 @@ FROM philosopher_lines pl
 JOIN philosophers ph ON pl.author = ph.name;
 ```
 ### Read
-
+#### 1.
 ```sql
 -- 철학자 인용문 조회
 SELECT * FROM philosophy.philosopher_lines;
 ```
 ![image](https://github.com/user-attachments/assets/3031aada-3d8f-4a92-9e6a-8fab445f684a)
-
+#### 2.
 ```sql
 -- 철학자 테이블 조회
 SELECT * FROM philosophy.philosophers;
 ```
 ![image](https://github.com/user-attachments/assets/7b6b1364-c899-4f25-bab1-d7324e05cd28)
 
+#### 3.
 ```sql
 -- 철학 학파 테이블 조회
 SELECT * FROM philosophical_schools;
 ```
 ![image](https://github.com/user-attachments/assets/502bd288-95cd-45b9-bf19-267d13ec4621)
 
+#### 4.
 ```sql
 -- 철학 저서 테이블 조회
 SELECT * FROM philosophical_works;
 ```
 ![image](https://github.com/user-attachments/assets/a120e391-d993-4ddc-bc61-5f12c3bf87d8)
 
+
 ### Update
+#### 1.
 ```sql
 -- 철학자 이름 수정
 UPDATE philosophers
@@ -134,6 +142,7 @@ WHERE id = 1;
 ```
 ![image](https://github.com/user-attachments/assets/ae9dd68c-5296-44f4-a49c-687c57174d62)
 
+#### 2.
 ```sql
 -- 철학 저서 제목 수정
 UPDATE philosophical_works
@@ -141,11 +150,14 @@ SET title = 'Not worth reading nowdays'
 WHERE id = 1;
 ```
 ### Delete
+
+#### 1.
 ```sql
 -- 철학자 데이터 삭제
 DELETE FROM philosophers
 WHERE id = 1;
 ```
+#### 2.
 ```sql
 -- 철학 저서 데이터 삭제
 DELETE FROM philosophical_works
