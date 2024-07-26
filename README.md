@@ -268,4 +268,4 @@ CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name
 
 ## 6. 기능 시연 영상
 
-[Demo video](https://github.com/extinctmule/philosopher-lines-database-design-using-RDBMS/demo.mov)
+[Demo video](https://github.com/extinctmule/philosopher-lines-database-design-using-RDBMS/blob/main/demo.mov)
