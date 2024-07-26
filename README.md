@@ -44,20 +44,24 @@ This dataset is originally sourced from Project Gutenberg and privately owned PD
 
 
 ### 2. 철학자 테이블 생성
+```sql
 CREATE TABLE IF NOT EXISTS philosophers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     school_id INT,
     FOREIGN KEY (school_id) REFERENCES philosophical_schools(id)
 );
+```
 
 ### 3. 철학 학파 테이블 생성
+```sql
 CREATE TABLE IF NOT EXISTS philosophical_schools (
     id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(255) NOT NULL UNIQUE
 );
-
+```
 ### 4. 철학 저서 테이블 생성 (DATE를 INT로 변경)
+```sql
 CREATE TABLE IF NOT EXISTS philosophical_works (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -66,3 +70,5 @@ CREATE TABLE IF NOT EXISTS philosophical_works (
     corpus_edition_date INT,
     FOREIGN KEY (author_id) REFERENCES philosophers(id)
 );
+```
+
