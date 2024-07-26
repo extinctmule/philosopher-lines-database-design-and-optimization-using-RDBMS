@@ -33,21 +33,24 @@ This dataset is originally sourced from Project Gutenberg and privately owned PD
 1. Philosophers 테이블
 
 	•	Primary Key: id (INT, AUTO_INCREMENT)
+
 	•	Foreign Key: school_id가 philosophical_schools 테이블의 id를 참조
 
-2. Philosophical Schools 테이블
+3. Philosophical Schools 테이블
 
 	•	Primary Key: id (INT, AUTO_INCREMENT)
 
-3. Philosophical Works 테이블
+4. Philosophical Works 테이블
 
 	•	Primary Key: id (INT, AUTO_INCREMENT)
+
 	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
 
-4. Philosopher Lines 테이블
+6. Philosopher Lines 테이블
 
 	•	Primary Key: id (INT, AUTO_INCREMENT)
-	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
+
+ 	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
 
 
 ## 2. MySQL 설정 및 데이터베이스 생성 스크립트
