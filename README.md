@@ -3,7 +3,8 @@
 - 고대~근대 철학자들의 인용문으로 RDBMS 설계하기
 
 ## Data Source
-This dataset is originally sourced from Project Gutenberg and privately owned PDFs as mentioned in the
+- 카글 철학 데이터셋
+- This dataset is originally sourced from Project Gutenberg and privately owned PDFs as mentioned in the
 [Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
 
 ## 전처리 후의 **초기** 데이터 구조
