@@ -195,10 +195,15 @@ CREATE INDEX idx_philosophical_works_publication_date ON philosophical_works(ori
 CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name);
 ```
 
-### 쿼리 최적화?
-
-
 ## 5. 성능 테스트 및 분석 보고서
 
+전: 인덱스 없이 SET profiling=1; 로 쿼리
+![image](https://github.com/user-attachments/assets/b2bed0b4-6f85-42bc-9f89-f944b63d4c72)
+
+후: 인덱스 사용
+![image](https://github.com/user-attachments/assets/8a6afb49-3b58-4dfd-96b6-54bfdd4b080f)
+
+
 ## 6. 기능 시연 영상
+
 
