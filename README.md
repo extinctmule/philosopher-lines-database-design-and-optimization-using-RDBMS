@@ -82,7 +82,8 @@ ADD COLUMN author_id INT,
 ADD FOREIGN KEY (author_id) REFERENCES philosophers(id);
 -- ...
 ```
-![image](https://github.com/user-attachments/assets/038842e5-07d9-40b8-9b19-8381a58744e7)
+![image](https://github.com/user-attachments/assets/d8ef190e-c569-452f-9abc-61e54ba3507f)
+
 
 ## 3. CRUD 작업을 수행하는 SQL 스크립트
 
