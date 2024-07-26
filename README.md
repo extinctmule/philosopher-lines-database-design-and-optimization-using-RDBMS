@@ -268,4 +268,4 @@ CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name
 
 ## 6. 기능 시연 영상
 
-![[Demo Video]](https://youtu.be/gs6HUsVfLJs?si=j41i7XpyJqKlj8QC)
+[Demo Video](https://youtu.be/gs6HUsVfLJs?si=j41i7XpyJqKlj8QC)
