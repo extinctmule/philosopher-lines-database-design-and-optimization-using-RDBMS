@@ -6,8 +6,9 @@
 This dataset is originally sourced from Project Gutenberg and privately owned PDFs as mentioned in the
 [Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
 
-## 전처리한 데이터 구조
-- DeepL API 이용해서 한국어로 번역한 컬럼 생성
+## 전처리 후의 **초기** 데이터 구조
+- 360808개의 인용문 -> 학자당 25개 제한 & 너무 많은 학파의 경우 제거해서 825개로 축소함
+- DeepL API 이용해서 한국어로 번역한 컬럼 sentence_ko 생성
 
 ![alt text](image.png)
 
@@ -28,6 +29,26 @@ This dataset is originally sourced from Project Gutenberg and privately owned PD
 ## 1. 데이터베이스 설계 다이어그램(ERD)
 
 ![image](https://github.com/user-attachments/assets/2979712c-66f2-4d4c-998e-aab40896b181)
+
+1. Philosophers 테이블
+
+	•	Primary Key: id (INT, AUTO_INCREMENT)
+	•	Foreign Key: school_id가 philosophical_schools 테이블의 id를 참조
+
+2. Philosophical Schools 테이블
+
+	•	Primary Key: id (INT, AUTO_INCREMENT)
+
+3. Philosophical Works 테이블
+
+	•	Primary Key: id (INT, AUTO_INCREMENT)
+	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
+
+4. Philosopher Lines 테이블
+
+	•	Primary Key: id (INT, AUTO_INCREMENT)
+	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
+
 
 ## 2. MySQL 설정 및 데이터베이스 생성 스크립트
 
@@ -196,7 +217,7 @@ CREATE INDEX idx_philosophers_school_id ON philosophers(school_id);
 -- 철학 저서 테이블에 인덱스 추가
 CREATE INDEX idx_philosophical_works_title ON philosophical_works(title);
 CREATE INDEX idx_philosophical_works_author_id ON philosophical_works(author_id);
-CREATE INDEX idx_philosophical_works_publication_date ON philosophical_works(original_publication_date);
+CREATE INDEX idx_philosophical_works_publication_year ON philosophical_works(original_publication_year);
 
 -- 철학 학파 테이블에 인덱스 추가
 CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name);
