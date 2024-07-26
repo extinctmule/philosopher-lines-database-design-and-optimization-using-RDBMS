@@ -71,7 +71,20 @@ CREATE TABLE IF NOT EXISTS philosophical_works (
 );
 ```
 
-## CRUD 작업을 수행하는 SQL 스크립트
+### 5. 처음에 생성했던 철학자 인용문에서 불필요한 컬럼들 삭제, id PK 설정 등 수정
+
+```sql
+ALTER TABLE philosopher_lines
+ADD COLUMN id INT AUTO_INCREMENT PRIMARY KEY;
+
+ALTER TABLE philosopher_lines
+ADD COLUMN author_id INT,
+ADD FOREIGN KEY (author_id) REFERENCES philosophers(id);
+-- ...
+```
+![image](https://github.com/user-attachments/assets/038842e5-07d9-40b8-9b19-8381a58744e7)
+
+## 3. CRUD 작업을 수행하는 SQL 스크립트
 
 ### Create
 #### 1.
@@ -164,3 +177,27 @@ WHERE id = 1;
 DELETE FROM philosophical_works
 WHERE id = 1;
 ```
+
+## 4. 인덱스 및 쿼리 최적화 스크립트
+### 인덱스 추가해보자
+```sql
+-- 철학자 테이블에 인덱스 추가
+CREATE INDEX idx_philosophers_name ON philosophers(name);
+CREATE INDEX idx_philosophers_school_id ON philosophers(school_id);
+
+-- 철학 저서 테이블에 인덱스 추가
+CREATE INDEX idx_philosophical_works_title ON philosophical_works(title);
+CREATE INDEX idx_philosophical_works_author_id ON philosophical_works(author_id);
+CREATE INDEX idx_philosophical_works_publication_date ON philosophical_works(original_publication_date);
+
+-- 철학 학파 테이블에 인덱스 추가
+CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name);
+```
+
+### 쿼리 최적화?
+
+
+## 5. 성능 테스트 및 분석 보고서
+
+## 6. 기능 시연 영상
+
