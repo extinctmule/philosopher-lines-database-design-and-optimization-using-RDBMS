@@ -3,11 +3,13 @@
 - 고대~근대 철학자들의 인용문으로 RDBMS 설계하기
 
 ## Data Source
+
 - [프로젝트 구텐베르크](https://www.gutenberg.org/)를 이용한 카글의 철학 데이터셋
 - This dataset is originally sourced from Project Gutenberg and privately owned PDFs as mentioned in the
-[Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
+  [Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
 
 ## 전처리 후의 **초기** 데이터 구조
+
 - 360808개의 인용문 -> 학자당 25개 제한 & 너무 많은 학파의 경우 제거해서 825개로 축소함
 - DeepL API 이용해서 한국어로 번역한 컬럼 sentence_ko 생성
 
@@ -26,34 +28,31 @@
     - tokenized_txt: 토큰화된 텍스트
     - lemmatized_str: 원형화된 문자열
 
-
 ## 1. 데이터베이스 설계 다이어그램(ERD)
 
 ![image](https://github.com/user-attachments/assets/19319615-3ad7-4bad-84bb-a1825f277781)
 
-
 1. Philosophers 테이블
 
-	•	Primary Key: id (INT, AUTO_INCREMENT)
+   • Primary Key: id (INT, AUTO_INCREMENT)
 
-	•	Foreign Key: school_id가 philosophical_schools 테이블의 id를 참조
+   • Foreign Key: school_id가 philosophical_schools 테이블의 id를 참조
 
-3. Philosophical Schools 테이블
+2. Philosophical Schools 테이블
 
-	•	Primary Key: id (INT, AUTO_INCREMENT)
+   • Primary Key: id (INT, AUTO_INCREMENT)
 
-4. Philosophical Works 테이블
+3. Philosophical Works 테이블
 
-	•	Primary Key: id (INT, AUTO_INCREMENT)
+   • Primary Key: id (INT, AUTO_INCREMENT)
 
-	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
+   • Foreign Key: author_id가 philosophers 테이블의 id를 참조
 
-6. Philosopher Lines 테이블
+4. Philosopher Lines 테이블
 
-	•	Primary Key: id (INT, AUTO_INCREMENT)
+   • Primary Key: id (INT, AUTO_INCREMENT)
 
- 	•	Foreign Key: author_id가 philosophers 테이블의 id를 참조
-
+   • Foreign Key: author_id가 philosophers 테이블의 id를 참조
 
 ## 2. MySQL 설정 및 데이터베이스 생성 스크립트
 
@@ -61,16 +60,16 @@
 
 (csv파일의 인코딩을 인식하지 못해서 json으로 변경 후 진행)
 
-
 ### 스키마 및 테이블 생성 과정
 
 ### 0. philosophy 스키마 생성
 
 ### 1. 첫 테이블 philosopher_lines;
+
 ![image](https://github.com/user-attachments/assets/3f3c97d7-465d-4a17-9e4e-7920652386c0)
 
-
 ### 2. 철학자 테이블 생성
+
 ```sql
 CREATE TABLE IF NOT EXISTS philosophers (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -81,13 +80,16 @@ CREATE TABLE IF NOT EXISTS philosophers (
 ```
 
 ### 3. 철학 학파 테이블 생성
+
 ```sql
 CREATE TABLE IF NOT EXISTS philosophical_schools (
     id INT AUTO_INCREMENT PRIMARY KEY,
     school_name VARCHAR(255) NOT NULL UNIQUE
 );
 ```
+
 ### 4. 철학 저서 테이블 생성 (DATE를 INT로 변경)
+
 ```sql
 CREATE TABLE IF NOT EXISTS philosophical_works (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -110,26 +112,32 @@ ADD COLUMN author_id INT,
 ADD FOREIGN KEY (author_id) REFERENCES philosophers(id);
 -- ...
 ```
-![image](https://github.com/user-attachments/assets/d8ef190e-c569-452f-9abc-61e54ba3507f)
 
+![image](https://github.com/user-attachments/assets/d8ef190e-c569-452f-9abc-61e54ba3507f)
 
 ## 3. CRUD 작업을 수행하는 SQL 스크립트
 
 ### Create
+
 #### 1.
+
 ```sql
 -- 철학 학파 테이블에 데이터 삽입
 INSERT IGNORE INTO philosophical_schools (school_name)
 SELECT DISTINCT school FROM philosopher_lines
 WHERE school IS NOT NULL AND school != '';
 ```
+
 #### 2.
+
 ```sql
 -- 철학자 테이블에 데이터 삽입
 INSERT INTO philosophers (name)
 SELECT DISTINCT author FROM philosopher_lines;
 ```
+
 #### 3.
+
 ```sql
 -- 철학자 테이블에 school_id 데이터 삽입
 UPDATE philosophers p
@@ -137,7 +145,9 @@ JOIN philosopher_lines pl ON p.name = pl.author
 JOIN philosophical_schools ps ON pl.school = ps.school_name
 SET p.school_id = ps.id;
 ```
+
 #### 4.
+
 ```sql
 -- 철학 저서 테이블에 데이터 삽입
 INSERT INTO philosophical_works (title, author_id, original_publication_date, corpus_edition_date)
@@ -145,75 +155,95 @@ SELECT DISTINCT pl.title, ph.id, pl.original_publication_date, pl.corpus_edition
 FROM philosopher_lines pl
 JOIN philosophers ph ON pl.author = ph.name;
 ```
+
 ### Read
 
 #### 1.
+
 ```sql
 -- 철학자 인용문 조회
 SELECT * FROM philosophy.philosopher_lines;
 ```
+
 ![image](https://github.com/user-attachments/assets/3031aada-3d8f-4a92-9e6a-8fab445f684a)
+
 #### 2.
+
 ```sql
 -- 철학자 테이블 조회
 SELECT * FROM philosophy.philosophers;
 ```
+
 ![image](https://github.com/user-attachments/assets/7b6b1364-c899-4f25-bab1-d7324e05cd28)
 
 #### 3.
+
 ```sql
 -- 철학 학파 테이블 조회
 SELECT * FROM philosophy.philosophical_schools;
 ```
+
 ![image](https://github.com/user-attachments/assets/502bd288-95cd-45b9-bf19-267d13ec4621)
 
 #### 4.
+
 ```sql
 -- 철학 저서 테이블 조회
 SELECT * FROM philosophy.philosophical_works;
 ```
+
 ![image](https://github.com/user-attachments/assets/a120e391-d993-4ddc-bc61-5f12c3bf87d8)
 
-
 ### Update
+
 #### 1.
+
 ```sql
 -- 철학자 이름 수정
 UPDATE philosophers
 SET name = 'Too idealistic man'
 WHERE id = 1;
 ```
+
 ![image](https://github.com/user-attachments/assets/ae9dd68c-5296-44f4-a49c-687c57174d62)
 
 #### 2.
+
 ```sql
 -- 철학 저서 제목 수정
 UPDATE philosophical_works
 SET title = 'Not worth reading nowdays'
 WHERE id = 1;
 ```
+
 ### Delete
 
 #### 1.
+
 ```sql
 -- 철학자 데이터 삭제
 DELETE FROM philosophers
 WHERE id = 1;
 ```
+
 #### 2.
+
 ```sql
 -- 철학 저서 데이터 삭제
 DELETE FROM philosophical_works
 WHERE id = 1;
 ```
+
 ### 추가 수정
+
 원본 데이터의 컬럼명
 original_publication_date, corpus_edition_date
 를 내용(1997, -350, ...)를 반영해 date에서 year로 수정함.
 
-
 ## 4. 인덱스 및 쿼리 최적화 스크립트
+
 ### 인덱스 추가해보자
+
 ```sql
 -- 철학자 테이블에 인덱스 추가
 CREATE INDEX idx_philosophers_name ON philosophers(name);
@@ -236,7 +266,6 @@ CREATE INDEX idx_philosophical_schools_name ON philosophical_schools(school_name
 후: 인덱스 사용
 ![image](https://github.com/user-attachments/assets/8a6afb49-3b58-4dfd-96b6-54bfdd4b080f)
 
-
 ## 6. 기능 시연 영상
 
-
+[Demo video](https://github.com/extinctmule/philosopher-lines-database-design-using-RDBMS/demo.mov)
