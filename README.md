@@ -23,7 +23,9 @@
 
 ## 추가할 테이블
 
-### 1. philosophers 철학자 정보 테이블
+### 1. philosophical_works 철학 저서 테이블
 
-철학자들의 인용문으로 RDBMS 설계하기
-
+- philosophical_works
+  - title
+  - author_id
+  - publication_date
