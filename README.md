@@ -31,13 +31,12 @@ This dataset is originally sourced from Project Gutenberg and privately owned PD
 
 ![image](https://github.com/user-attachments/assets/35e82363-9b77-4ad9-bbc9-9a68cf5a56ce)
 
-
-- csv파일의 인코딩을 인식하지 못해서 json으로 변경 후 진행
+(csv파일의 인코딩을 인식하지 못해서 json으로 변경 후 진행)
 
 
 ### 스키마 및 테이블 생성 과정
 
-### philosophy 스키마 생성
+### 0. philosophy 스키마 생성
 
 ### 1. 첫 테이블 philosopher_lines;
 ![image](https://github.com/user-attachments/assets/3f3c97d7-465d-4a17-9e4e-7920652386c0)
@@ -72,3 +71,83 @@ CREATE TABLE IF NOT EXISTS philosophical_works (
 );
 ```
 
+## CRUD 작업을 수행하는 SQL 스크립트
+
+### Create
+```sql
+-- 철학 학파 테이블에 데이터 삽입
+INSERT IGNORE INTO philosophical_schools (school_name)
+SELECT DISTINCT school FROM philosopher_lines
+WHERE school IS NOT NULL AND school != '';
+```
+```sql
+-- 철학자 테이블에 데이터 삽입
+INSERT INTO philosophers (name)
+SELECT DISTINCT author FROM philosopher_lines;
+```
+```sql
+-- 철학자 테이블에 school_id 데이터 삽입
+UPDATE philosophers p
+JOIN philosopher_lines pl ON p.name = pl.author
+JOIN philosophical_schools ps ON pl.school = ps.school_name
+SET p.school_id = ps.id;
+```
+```sql
+-- 철학 저서 테이블에 데이터 삽입
+INSERT INTO philosophical_works (title, author_id, original_publication_date, corpus_edition_date)
+SELECT DISTINCT pl.title, ph.id, pl.original_publication_date, pl.corpus_edition_date
+FROM philosopher_lines pl
+JOIN philosophers ph ON pl.author = ph.name;
+```
+### Read
+
+```sql
+-- 철학자 인용문 조회
+SELECT * FROM philosophy.philosopher_lines;
+```
+![image](https://github.com/user-attachments/assets/3031aada-3d8f-4a92-9e6a-8fab445f684a)
+
+```sql
+-- 철학자 테이블 조회
+SELECT * FROM philosophy.philosophers;
+```
+![image](https://github.com/user-attachments/assets/7b6b1364-c899-4f25-bab1-d7324e05cd28)
+
+```sql
+-- 철학 학파 테이블 조회
+SELECT * FROM philosophical_schools;
+```
+![image](https://github.com/user-attachments/assets/502bd288-95cd-45b9-bf19-267d13ec4621)
+
+```sql
+-- 철학 저서 테이블 조회
+SELECT * FROM philosophical_works;
+```
+![image](https://github.com/user-attachments/assets/a120e391-d993-4ddc-bc61-5f12c3bf87d8)
+
+### Update
+```sql
+-- 철학자 이름 수정
+UPDATE philosophers
+SET name = 'Too idealistic man'
+WHERE id = 1;
+```
+![image](https://github.com/user-attachments/assets/ae9dd68c-5296-44f4-a49c-687c57174d62)
+
+```sql
+-- 철학 저서 제목 수정
+UPDATE philosophical_works
+SET title = 'Not worth reading nowdays'
+WHERE id = 1;
+```
+### Delete
+```sql
+-- 철학자 데이터 삭제
+DELETE FROM philosophers
+WHERE id = 1;
+```
+```sql
+-- 철학 저서 데이터 삭제
+DELETE FROM philosophical_works
+WHERE id = 1;
+```
