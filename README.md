@@ -104,6 +104,7 @@ FROM philosopher_lines pl
 JOIN philosophers ph ON pl.author = ph.name;
 ```
 ### Read
+
 #### 1.
 ```sql
 -- 철학자 인용문 조회
@@ -120,14 +121,14 @@ SELECT * FROM philosophy.philosophers;
 #### 3.
 ```sql
 -- 철학 학파 테이블 조회
-SELECT * FROM philosophical_schools;
+SELECT * FROM philosophy.philosophical_schools;
 ```
 ![image](https://github.com/user-attachments/assets/502bd288-95cd-45b9-bf19-267d13ec4621)
 
 #### 4.
 ```sql
 -- 철학 저서 테이블 조회
-SELECT * FROM philosophical_works;
+SELECT * FROM philosophy.philosophical_works;
 ```
 ![image](https://github.com/user-attachments/assets/a120e391-d993-4ddc-bc61-5f12c3bf87d8)
 
