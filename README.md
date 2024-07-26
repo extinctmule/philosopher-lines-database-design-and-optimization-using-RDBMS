@@ -29,7 +29,8 @@
 
 ## 1. 데이터베이스 설계 다이어그램(ERD)
 
-![image](https://github.com/user-attachments/assets/2979712c-66f2-4d4c-998e-aab40896b181)
+![image](https://github.com/user-attachments/assets/19319615-3ad7-4bad-84bb-a1825f277781)
+
 
 1. Philosophers 테이블
 
