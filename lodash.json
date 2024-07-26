@@ -1,8 +1,0 @@
-{
-  "name": "test-proj",
-  "version": "1.0.0",
-  "description": "A project with a known security vulnerability",
-  "dependencies": {
-    "lodash": "4.17.4"
-  }
-}
