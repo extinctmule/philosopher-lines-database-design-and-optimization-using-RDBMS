@@ -4,7 +4,7 @@
 
 ## Data Source
 
-- 프로젝트 구텐베르크를 이용한 카글의 철학 데이터셋
+- 프로젝트 구텐베르크를 이용한 [카글의 철학 데이터셋](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data)
 - This dataset is originally sourced from Project Gutenberg and privately owned PDFs as mentioned in the
   [Kaggle dataset page](https://www.kaggle.com/datasets/kouroshalizadeh/history-of-philosophy/data).
 
